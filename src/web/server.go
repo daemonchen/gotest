@@ -3,18 +3,19 @@ package main
 import (
 	"fmt"
 	"labix.org/v2/mgo"
-	"labix.org/v2/mgo/bson"
+	// "labix.org/v2/mgo/bson"
+	"html/template"
 	"log"
 	"net/http"
+	"time"
 	// "strings"
 )
 
-func dbTest() {
+func dbTest(name string) {
+	time := time.Now()
 	session, err := mgo.Dial("localhost")
-	fmt.Print("dbTest start")
 	if err != nil {
-		fmt.Print("connect mongo error:")
-		fmt.Print(err)
+		fmt.Print("[db error]", err)
 		panic(err)
 	}
 	defer session.Close()
@@ -22,35 +23,38 @@ func dbTest() {
 	session.SetMode(mgo.Monotonic, true)
 
 	c := session.DB("customer_behavior").C("people")
-	err = c.Insert(&Person{"Ale", "+55 53 8116 9639"},
-		&Person{"Cla", "+55 53 8402 8510"})
+	err = c.Insert(&Person{name, "+55 53 8116 9639", time})
 	if err != nil {
-		fmt.Print(err)
+		fmt.Print("insert error", err)
 
 		panic(err)
 	}
 
-	result := Person{}
-	err = c.Find(bson.M{"name": "Ale"}).One(&result)
-	if err != nil {
-		fmt.Print(err)
+	// result := Person{}
+	// err = c.Find(bson.M{"name": "Ale"}).One(&result)
+	// if err != nil {
+	// 	fmt.Print(err)
 
-		panic(err)
-	}
+	// 	panic(err)
+	// }
 
-	fmt.Println("Phone:", result.Phone)
+	// fmt.Println("Phone:", result.Phone)
 }
 func logRequest(res http.ResponseWriter, req *http.Request) {
 	req.ParseForm()
-	fmt.Println(req.Form)
-	fmt.Println(req.URL.Path)
-	fmt.Fprintf(res, "test")
-	dbTest()
+	name := req.Form["name"]
+	if len(name) > 0 {
+		dbTest(name[0])
+		t := template.New("mytemplate")
+		r, _ := t.Parse("hello,{{.}}!")
+		r.Execute(res, name[0])
+	}
 }
 
 type Person struct {
 	Name  string
 	Phone string
+	Stamp time.Time
 }
 
 func main() {
