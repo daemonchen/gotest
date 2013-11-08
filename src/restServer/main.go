@@ -9,9 +9,7 @@ import (
 )
 
 type Badge struct {
-	Live   int `json:"live"`
 	Master int `json:"master"`
-	Chat   int `json:"chat"`
 	Note   int `json:"note"`
 }
 type Result struct {
@@ -29,7 +27,8 @@ func getUser(writer http.ResponseWriter, reader *http.Request) {
 
 func getBadgeInfo(writer http.ResponseWriter, reader *http.Request) {
 	reader.ParseForm()
-	badges := &Badge{1, 2, 3, 4}
+	fmt.Printf("params:%s,%s\r\n\r\n", reader.FormValue("token"), reader.Form.Get("roomId"))
+	badges := &Badge{1, 2}
 	data := Result{Success: true, Data: badges}
 	result, err := json.Marshal(data)
 	if err != nil {
