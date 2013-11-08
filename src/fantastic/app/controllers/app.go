@@ -1,9 +1,14 @@
 package controllers
 
-import "github.com/robfig/revel"
+import (
+	"fantastic/app/models"
+	"github.com/jgraham909/revmgo"
+	"github.com/robfig/revel"
+)
 
 type App struct {
 	*revel.Controller
+	revmgo.MongoController
 }
 
 func (c App) Index() revel.Result {
