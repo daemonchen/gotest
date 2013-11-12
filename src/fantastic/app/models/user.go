@@ -1,32 +1,44 @@
 package models
 
 import (
+	// "encoding/json"
+	"fmt"
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
 )
 
-type User struct{
-  Id: bson.ObjectId `bson:"_id,omitempty"`
-  Name: string `bson:"name"`
+type User struct {
+	Id    bson.ObjectId `bson:"_id,omitempty"`
+	Name  string        `bson:"name"`
+	Phone string        `bson:"phone"`
+	Stamp string        `bson:"stamp"`
 }
 
 func Collection(s *mgo.Session) *mgo.Collection {
-  return s.DB("customer_behavior").C("people")
+	return s.DB("customer_behavior").C("people")
 }
 
 func GetUserByName(s *mgo.Session, Name string) *User {
-  b := new(User)
-  Collection(s).Find(bson.M({"name": Name})).One(b)
-  return b
+	b := new(User)
+	Collection(s).Find(bson.M{"name": Name}).One(b)
+	fmt.Println(">>>>>>query result:", b)
+	return b
+}
+
+func GetAllUsers(s *mgo.Session) []User {
+	var result []User
+	Collection(s).Find(nil).Iter().All(&result)
+	fmt.Println(">>>>>>>>>all users: ", result)
+	return result
 }
 
 func (b *User) Save(s *mgo.Session) error {
-  _, err := Collection(s).Upsert(bson.M{"_id": b.Id}, b)
-  return err
+	_, err := Collection(s).Upsert(bson.M{"_id": b.Id}, b)
+	return err
 }
 
 func (b *User) Delete(s *mgo.Session) error {
-  return Collection(s).RemoveId(b.Id)
+	return Collection(s).RemoveId(b.Id)
 }
 
 // func GetBook(n string) *Book {

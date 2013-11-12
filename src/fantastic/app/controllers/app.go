@@ -1,7 +1,9 @@
 package controllers
 
 import (
+	// "encoding/json"
 	"fantastic/app/models"
+	"fmt"
 	"github.com/jgraham909/revmgo"
 	"github.com/robfig/revel"
 )
@@ -9,6 +11,11 @@ import (
 type App struct {
 	*revel.Controller
 	revmgo.MongoController
+}
+
+type Badge struct {
+	Master int `json:"master"`
+	Note   int `json:"note"`
 }
 
 func (c App) Index() revel.Result {
@@ -25,4 +32,16 @@ func (c App) Hello(myName string) revel.Result {
 		return c.Redirect(App.Index)
 	}
 	return c.Render(myName)
+}
+
+func (c App) Users() revel.Result {
+	result := models.GetUserByName(c.MongoSession, "daemon")
+	return c.Render(result)
+}
+
+func (c *App) AllUsers() revel.Result {
+	data := models.GetAllUsers(c.MongoSession)
+	// result, _ := json.Marshal(data)
+	fmt.Println(">>>>>>all users in action:", data)
+	return c.RenderJson(data)
 }
