@@ -41,7 +41,6 @@ func (c App) Users() revel.Result {
 
 func (c *App) AllUsers() revel.Result {
 	data := models.GetAllUsers(c.MongoSession)
-	// result, _ := json.Marshal(data)
 	fmt.Println(">>>>>>all users in action:", data)
 	return c.RenderJson(data)
 }
