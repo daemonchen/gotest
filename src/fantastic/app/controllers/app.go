@@ -13,11 +13,6 @@ type App struct {
 	revmgo.MongoController
 }
 
-type Badge struct {
-	Master int `json:"master"`
-	Note   int `json:"note"`
-}
-
 func (c App) Index() revel.Result {
 	greeting := "Daemon"
 	return c.Render(greeting)
