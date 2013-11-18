@@ -30,6 +30,11 @@ type Message struct {
 	ChannelId     int    `json:"channelId"`
 }
 
+type Badge struct {
+	Master int `json:"master"`
+	Note   int `json:"note"`
+}
+
 func (c Api) Update() revel.Result {
 	// greeting := "Daemon"
 	data := &Version{true, "orz", "6.3", true, "http://www.5800.com/ruanjian/app.apk"}
@@ -38,7 +43,7 @@ func (c Api) Update() revel.Result {
 
 func (c Api) Message() revel.Result {
 	messageList := []*Message{
-		&Message{"预警通知", "warning", "hello", 123, "#2293f5", 2},
+		&Message{"111", "warning", "hello", 123, "#2293f5", 2},
 		&Message{"我的投顾", "chat", "hello", 123, "#2293f5", 272},
 		&Message{"异动前哨", "qianshao", "上午大盘一下子就涨上去了又挂", 123, "#2293f5", 273},
 		&Message{"系统公告", "news", "关于白银最近不正常的通知", 123, "#2293f5", 271},
@@ -51,4 +56,9 @@ func (c Api) Message() revel.Result {
 	}
 	return c.RenderJson(messageList)
 	// data := [] Message
+}
+
+func (c *Api) CheckBadgeInfo() revel.Result {
+	result := &Badge{3, 4}
+	return c.RenderJson(result)
 }
