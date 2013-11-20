@@ -1,27 +1,21 @@
 {{set . "title" "Home"}}
+{{append . "moreStyles" "/css/index.css"}}
+{{append . "moreScripts" "/js/index.js"}}
 {{template "header.html" .}}
-
-<header class="hero-unit" style="background-color:#A9F16C">
+<div class="ui green inverted menu">
   <div class="container">
-    <div class="row">
-      <div class="hero-text">
-        <h1>{{.greeting}}</h1>
-        <p></p>
-      </div>
-    </div>
-  </div>
-</header>
-
-<div class="container">
-  <div class="row">
-    <div class="span6">
-      {{template "flash.html" .}}
-      <form action="/App/Hello" method="GET">
-          <input type="text" name="myName" /><br/>
-          <input type="submit" value="Say hello!" />
-      </form>
-    </div>
+    <a class="active item">
+      <i class="home icon"></i> Home
+    </a>
+    <a class="item">
+      <i class="mail icon"></i> Messages
+    </a>
+    <a class="item">
+      <i class="user icon"></i> Friends
+    </a>
   </div>
 </div>
+
+<div class="ui sidebar"></div>
 
 {{template "footer.html" .}}
