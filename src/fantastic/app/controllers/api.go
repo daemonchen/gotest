@@ -22,12 +22,28 @@ type Version struct {
 }
 
 type Message struct {
+	Id            string `json:"id"`
 	Title         string `json:"title"`
 	Type          string `json:"type"`
 	LatestNews    string `json:"latestNews"`
-	UpdateTime    int    `json:"updateTime"`
+	UpdateTime    string `json:"updateTime"`
 	HeadlineColor string `json:"headlineColor"`
 	ChannelId     int    `json:"channelId"`
+}
+type Live struct {
+	Name       string `json:"name"`
+	Title      string `json:"title"`
+	Id         int    `json:"id"`
+	Type       string `json:"type"`
+	Username   string `json:"username"`
+	ServerId   int    `json:"serverId"`
+	Nickname   string `json:"nickname"`
+	UpdateTime int    `json:""updateTime`
+	ZbStatus   int    `json:"zbStatus"`
+	IsTop      int    `json:"isTop"`
+	IsActive   bool   `json:"isActive"`
+	LatestNews string `json:"latestNews"`
+	Bulletin   string `json:"bulletin"`
 }
 
 type Badge struct {
@@ -42,17 +58,19 @@ func (c Api) Update() revel.Result {
 }
 
 func (c Api) Message() revel.Result {
-	messageList := []*Message{
-		&Message{"111", "warning", "hello", 123, "#2293f5", 2},
-		&Message{"我的投顾", "chat", "hello", 123, "#2293f5", 272},
-		&Message{"异动前哨", "qianshao", "上午大盘一下子就涨上去了又挂", 123, "#2293f5", 273},
-		&Message{"系统公告", "news", "关于白银最近不正常的通知", 123, "#2293f5", 271},
-		&Message{"今日策略", "strategyNews", "今天必须关注的经济指标", 123, "#2293f5", 275},
-		&Message{"财经日历", "financialNews", "欧元区8月份要倒闭", 123, "#f55200", 3},
-		&Message{"热点聚焦", "hotNews", "今天必须关注的经济指标", 123, "#f55200", 276},
-		&Message{"白银学堂", "news", "白银学堂白银学堂白银学堂", 123, "#f55200", 321},
-		&Message{"快讯精灵", "warning", "hello", 123, "#2293f5", 1},
-		&Message{"银江湖", "hotNews", "白银学堂白银学堂白银学堂", 123, "#f55200", 333},
+	messageList := []interface{}{
+		&Live{"AAA直播室", "AAA直播室", 5, "live", "jry001", 1, "森德金融研究所", 1318561963000, 1, 0, true, "春节关门行情，开心！", "<div>hello</div>"},
+		&Message{"warning", "11f1", "warning", "hello", "2013-11-22T14:25:00.215Z", "#2293f5", 2},
+		&Message{"chat", "我的投顾f", "chat", "hello", "2013-11-22T14:25:00.215Z", "#2293f5", 272},
+		// &Message{"异动前哨", "qianshao", "上午大盘一下子就涨上去了又挂", "2013-11-22T14:25:00.215Z", "#2293f5", 273},
+		&Message{"news_496", "系统公告f", "news", "关于白银最近不正常的通知", "2013-11-22T14:25:00.215Z", "#2293f5", 271},
+		&Message{"strategyNews", "今日策略f", "strategyNews", "今天必须关注的经济指标", "123", "#2293f5", 275},
+		&Message{"financialNews", "财经日历f", "financialNews", "欧元区8月份要倒闭", "123", "#f55200", 3},
+		&Message{"hotNews_420", "热点聚焦f", "hotNews", "今天必须关注的经济指标", "123", "#f55200", 276},
+		&Message{"news_498", "白银学堂f", "news", "白银学堂白银学堂白银学堂", "123", "#f55200", 321},
+		&Message{"news_434", "快讯精灵f", "fastNews", "hello", "123", "#2293f5", 1},
+		&Message{"news_495", "银江湖ff", "hotNews", "白银学堂白银学堂白银学堂", "123", "#f55200", 333},
+		// &Message{"live", "天天涨停板f", "live", "天天涨停板", "2013-11-22T14:25:00.215Z", "#f55200", 333},
 	}
 	return c.RenderJson(messageList)
 	// data := [] Message
