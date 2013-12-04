@@ -1,17 +1,47 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
-	"mymath"
+	"io/ioutil"
+	"os"
+	// "mymath"
+	. "github.com/jbrukh/bayesian"
 )
 
+const (
+	Good Class = "Good"
+	Bad  Class = "Bad"
+)
+
+// var classifier *Classifier
+
+func bayesLearn() {
+	classifier := NewClassifier(Good, Bad)
+	goodStuff := []string{"tall", "rich", "handsome"}
+	badStuff := []string{"poor", "smelly", "ugly"}
+	classifier.Learn(goodStuff, Good)
+	classifier.Learn(badStuff, Bad)
+	writer := bytes.NewBuffer(nil)
+	classifier.WriteTo(writer)
+	ioutil.WriteFile("class.txt", writer.Bytes(), os.ModeAppend|os.ModePerm)
+}
+
+// func complexTest() {
+// 	fmt.Printf("Hello,Sqrt(4)=%v\n", mymath.Sqrt(4))
+// 	complex := 5 + 5i
+// 	s := "daemon"
+// 	c := []byte(s)
+// 	t := "a" + s[1:]
+// 	fmt.Printf("complex data is %v", complex)
+// }
+
+func logScores() {
+	classifier, _ := NewClassifierFromFile("class.txt")
+	scores, likely, _ := classifier.SafeProbScores([]string{"tall", "girl"})
+	fmt.Println("--->>>:", scores, likely)
+}
 func main() {
-	fmt.Printf("Hello,Sqrt(4)=%v\n", mymath.Sqrt(4))
-	complex := 5 + 5i
-	s := "hexixi"
-	c := []byte(s)
-	t := "a" + s[1:]
-	rawS := `hexixi
-  hahaha`
-	fmt.Printf("complex data is %v", complex)
+	bayesLearn()
+	logScores()
 }
