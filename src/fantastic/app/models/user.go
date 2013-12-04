@@ -8,10 +8,10 @@ import (
 )
 
 type User struct {
-	Id    bson.ObjectId `bson:"_id,omitempty"`
-	Name  string        `bson:"name"`
-	Phone string        `bson:"phone"`
-	Stamp string        `bson:"stamp"`
+	Id       bson.ObjectId `bson:"_id,omitempty"`
+	Name     string        `bson:"username"`
+	Password string        `bson:"password"`
+	// Stamp string        `bson:"stamp"`
 }
 
 func Collection(s *mgo.Session) *mgo.Collection {
@@ -20,7 +20,7 @@ func Collection(s *mgo.Session) *mgo.Collection {
 
 func GetUserByName(s *mgo.Session, Name string) *User {
 	b := new(User)
-	Collection(s).Find(bson.M{"name": Name}).One(b)
+	Collection(s).Find(bson.M{"username": Name}).One(b)
 	fmt.Println(">>>>>>query result:", b)
 	return b
 }

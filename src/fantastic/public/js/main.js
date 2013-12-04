@@ -1,7 +1,7 @@
-semantic.validateForm = {};
-semantic.validateForm.ready = function(){
-  $('.ui.sidebar').sidebar('attach events', '.attached.button');
+semantic.sidebar = {};
+semantic.sidebar.ready = function(){
+  $('.sidebar').first().sidebar('attach events', '#menu');
 };
-$(function(){
-  semantic.validateForm.ready();
-});
+$(document)
+  .ready(semantic.sidebar.ready)
+;

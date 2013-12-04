@@ -4,6 +4,7 @@
   <head>
     <title>{{.title}}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="/public/css/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="/public/css/semantic.css">
     <link rel="shortcut icon" type="image/png" href="/public/img/favicon.png">
     <script src="/public/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
@@ -22,13 +23,13 @@
   <body>
     <div class="ui green inverted menu fixed">
       <div class="container">
-        <a class="active item">
+        <a class="active item" href="/">
           <i class="home icon"></i> Home
         </a>
         <a class="item">
           <i class="info icon"></i> About me
         </a>
-        <a class="item">
+        <a class="item" href="/edit/index">
           <i class="edit icon"></i> Edit
         </a>
          <a class="item" href="https://github.com/daemonchen">
@@ -36,7 +37,7 @@
         </a>
       </div>
     </div>
-    <div class="ui green huge launch right attached button" style="width: 70px;" id="menu">
+    <div class="ui green huge launch right attached button" id="menu">
       <i class="icon list layout"></i>
       <span class="text" style="display: none;">Menu</span>
     </div>

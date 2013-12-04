@@ -1,30 +1,3 @@
-// $(function(){
-//   $('.ui.form').form({
-//     username:{
-//       identifier: 'username',
-//       rules:[
-//       {
-//         type:'empty',
-//         prompt: 'Please enter your username'
-//       }
-//       ]
-//     },
-//     password: {
-//       identifier : 'password',
-//       rules: [
-//         {
-//           type   : 'empty',
-//           prompt : 'Please enter a password'
-//         },
-//         {
-//           type   : 'length[6]',
-//           prompt : 'Your password must be at least 6 characters'
-//         }
-//       ]
-//     }
-//   });
-// });
-
 semantic.validateForm = {};
 
 // ready event
@@ -42,9 +15,6 @@ semantic.validateForm.ready = function() {
   handler = {
 
   };
-  // $checkbox
-  //   .checkbox()
-  // ;
 
   $.fn.form.settings.defaults = {
     firstName: {
@@ -125,10 +95,27 @@ semantic.validateForm.ready = function() {
     }
   };
 
+  var login = function(data){
+      $.ajax({
+        type:"GET",
+        url: '/login/login',
+        data: data,//{timestamp:timestamp},
+        success: function(xhr,result,obj){
 
-
+          console.log('login success')
+        },
+        error: function(obj,err,xhr){
+          alert('username or password is wrong')
+        }
+      });
+  }
   $form
-    .form()
+    .form({},{onSuccess: function(e){
+      var username = $("#username").val()
+      var password = $("#password").val()
+      login({username:username,password:MD5(password),timestamp:e.timeStamp})
+
+    }})
   ;
 
 };
