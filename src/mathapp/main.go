@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 	// "mymath"
 	. "github.com/jbrukh/bayesian"
 )
@@ -15,11 +16,18 @@ const (
 )
 
 // var classifier *Classifier
+func readTemplate(file string) (stringArray []string) {
+	byteArray, _ := ioutil.ReadFile(file)
+	stringResult := string(byteArray[:])
+	fmt.Println("stringResult", stringResult)
+	stringArray = strings.Split(stringResult, ",")
+	return
+}
 
 func bayesLearn() {
 	classifier := NewClassifier(Good, Bad)
-	goodStuff := []string{"tall", "rich", "handsome"}
-	badStuff := []string{"poor", "smelly", "ugly"}
+	goodStuff := readTemplate("good.txt")
+	badStuff := readTemplate("bad.txt")
 	classifier.Learn(goodStuff, Good)
 	classifier.Learn(badStuff, Bad)
 	writer := bytes.NewBuffer(nil)
@@ -38,7 +46,7 @@ func bayesLearn() {
 
 func logScores() {
 	classifier, _ := NewClassifierFromFile("class.txt")
-	scores, likely, _ := classifier.SafeProbScores([]string{"tall", "girl"})
+	scores, likely, _ := classifier.LogScores([]string{"tall", "girl"})
 	fmt.Println("--->>>:", scores, likely)
 }
 func main() {
