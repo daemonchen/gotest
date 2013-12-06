@@ -40,6 +40,7 @@ func readTemplate(file string) (stringArray []string) {
 }
 
 func bayesLearn() {
+	fmt.Println(">>>>>>>>>>>>Good", Good)
 	classifier := NewClassifier(Good, Bad)
 	goodStuff := readTemplate("good.txt")
 	badStuff := readTemplate("bad.txt")
@@ -61,6 +62,7 @@ func bayesLearn() {
 
 func logScores() {
 	classifier, _ := NewClassifierFromFile("class.txt")
+	fmt.Println(">>>>>>>>>classifier", classifier)
 	scores, likely, _ := classifier.LogScores([]string{"tall", "girl"})
 	fmt.Println("--->>>:", scores, likely)
 }

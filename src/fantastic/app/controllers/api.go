@@ -3,9 +3,13 @@ package controllers
 import (
 	// "encoding/json"
 	// "fantastic/app/models"
+	"bytes"
 	"fmt"
+	. "github.com/jbrukh/bayesian"
 	"github.com/jgraham909/revmgo"
 	"github.com/robfig/revel"
+	"os"
+	// "strings"
 )
 
 type Api struct {
@@ -60,6 +64,11 @@ type JsonResponse struct {
 	Segments []*SegmentField `json:"segments"`
 }
 
+const (
+	Good = "Good"
+	Bad  = "Bad"
+)
+
 func (c Api) Update() revel.Result {
 	// greeting := "Daemon"
 	data := &Version{true, "orz", "6.3", true, "http://www.5800.com/ruanjian/app.apk"}
@@ -90,17 +99,39 @@ func (c *Api) CheckBadgeInfo() revel.Result {
 	return c.RenderJson(result)
 }
 
+func bayesLearn(text []string, class string) {
+	var classifier *Classifier
+	wd, _ := os.Getwd()
+	fmt.Println(">>>>>>os wd", wd)
+	classifier, err := NewClassifierFromFile("class.txt")
+	if err != nil {
+		classifier := NewClassifier(Good, Bad)
+	}
+	classifier.Learn(text, class)
+	writer := bytes.NewBuffer(nil)
+	classifier.WriteTo(writer)
+	ioutil.WriteFile("class.txt", writer.Bytes(), os.ModeAppend|os.ModePerm)
+}
+
+// func (c *Api) logScores(text string) revel.Result {
+// 	classifier, _ := NewClassifierFromFile("class.txt")
+// 	fmt.Println(">>>>>>>>>classifier", classifier)
+// 	scores, likely, _ := classifier.LogScores([]string{"tall", "girl"})
+// 	fmt.Println("--->>>:", scores, likely)
+// 	return c.RenderJson(response)
+// }
+
 func (c *Api) Segment(text string) revel.Result {
 	// 分词
 	segments := Segmenter.Segment([]byte(text))
 
 	// 整理为输出格式
 	ss := []*SegmentField{}
-	fmt.Println(">>>>>>>segment.Token().Text(),")
 	for _, segment := range segments {
 		ss = append(ss, &SegmentField{Text: segment.Token().Text(), Pos: segment.Token().Pos()})
 	}
 	response := &JsonResponse{Segments: ss}
-	// fmt.Println(">>>>>text", ss)
+	fmt.Println(">>>>>>>>>>>>", response)
+	// go bayesLearn("hahah", "Good")
 	return c.RenderJson(response)
 }
