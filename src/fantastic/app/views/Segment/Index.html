@@ -1,0 +1,26 @@
+{{set . "title" "Login"}}
+{{append . "moreStyles" "/css/main.css"}}
+{{append . "moreScripts" "/js/main.js"}}
+{{append . "moreScripts" "/js/segment.js"}}
+
+{{template "header.html" .}}
+<div class="main container">
+  <div class="ui form">
+      <div class="field">
+        <textarea id="text" rows="30" cols="60">
+          百度91博弈全过程：将成中国互联网最大并购
+
+          来源：21世纪经济报道
+
+          7月16日上午，百度宣布拟全资收购在香港上市的网龙公司旗下的91无线业务，购买总价为19亿美元，相关各方已经签署谅解备忘录。91无线方面随后向记者证实了此事。该交易如果完成，将成为中国互联网历史上最大的一笔并购案。
+        </textarea>
+      </div>
+      <div class="field">
+        <div onclick="Segment()" class="ui blue button submit">分词</div>
+      </div>
+      <textarea id="output" rows="30" cols="60" disabled></textarea>
+    </div>
+
+
+</div>
+{{template "footer.html" .}}

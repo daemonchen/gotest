@@ -3,7 +3,7 @@ package controllers
 import (
 	// "encoding/json"
 	// "fantastic/app/models"
-	// "fmt"
+	"fmt"
 	"github.com/jgraham909/revmgo"
 	"github.com/robfig/revel"
 )
@@ -51,6 +51,15 @@ type Badge struct {
 	Note   int `json:"note"`
 }
 
+type SegmentField struct {
+	Text string `json:"text"`
+	Pos  string `json:"pos"`
+}
+
+type JsonResponse struct {
+	Segments []*SegmentField `json:"segments"`
+}
+
 func (c Api) Update() revel.Result {
 	// greeting := "Daemon"
 	data := &Version{true, "orz", "6.3", true, "http://www.5800.com/ruanjian/app.apk"}
@@ -79,4 +88,19 @@ func (c Api) Message() revel.Result {
 func (c *Api) CheckBadgeInfo() revel.Result {
 	result := &Badge{3, 4}
 	return c.RenderJson(result)
+}
+
+func (c *Api) Segment(text string) revel.Result {
+	// 分词
+	segments := Segmenter.Segment([]byte(text))
+
+	// 整理为输出格式
+	ss := []*SegmentField{}
+	fmt.Println(">>>>>>>segment.Token().Text(),")
+	for _, segment := range segments {
+		ss = append(ss, &SegmentField{Text: segment.Token().Text(), Pos: segment.Token().Pos()})
+	}
+	response := &JsonResponse{Segments: ss}
+	// fmt.Println(">>>>>text", ss)
+	return c.RenderJson(response)
 }
