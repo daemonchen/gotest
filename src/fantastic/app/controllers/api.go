@@ -8,7 +8,9 @@ import (
 	. "github.com/jbrukh/bayesian"
 	"github.com/jgraham909/revmgo"
 	"github.com/robfig/revel"
+	"io/ioutil"
 	"os"
+
 	// "strings"
 )
 
@@ -99,13 +101,13 @@ func (c *Api) CheckBadgeInfo() revel.Result {
 	return c.RenderJson(result)
 }
 
-func bayesLearn(text []string, class string) {
+func bayesLearn(text []string, class Class) {
 	var classifier *Classifier
 	wd, _ := os.Getwd()
 	fmt.Println(">>>>>>os wd", wd)
 	classifier, err := NewClassifierFromFile("class.txt")
 	if err != nil {
-		classifier := NewClassifier(Good, Bad)
+		classifier = NewClassifier(Good, Bad)
 	}
 	classifier.Learn(text, class)
 	writer := bytes.NewBuffer(nil)
