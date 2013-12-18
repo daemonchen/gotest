@@ -16,6 +16,7 @@ func (c Edit) Index() revel.Result {
 	if c.Session["islogin"] != "true" {
 		return c.Redirect(Login.Index)
 	}
-	return c.Render()
+	controllerName := "edit"
+	return c.Render(controllerName)
 
 }

@@ -23,19 +23,19 @@
   <body>
     <div class="ui green inverted menu fixed">
       <div class="container">
-        <a class="active item" href="/">
+        <a class="{{if eq .controllerName "home"}}active{{end}} item" href="/">
           <i class="home icon"></i> Home
         </a>
-        <a class="item">
+        <a class="{{if eq .controllerName "about"}}active{{end}} item">
           <i class="info icon"></i> About me
         </a>
-        <a class="item" href="/edit/index">
+        <a class="item {{if eq .controllerName "edit"}}active{{end}}" href="/edit/index">
           <i class="edit icon"></i> Edit
         </a>
          <a class="item" href="https://github.com/daemonchen">
           <i class="github icon"></i> Github
         </a>
-        <a class="item" href="/segment/index">
+        <a class="{{if eq .controllerName "segment"}}active{{end}} item" href="/segment/index">
           <i class="tasks icon"></i> Segment
         </a>
       </div>

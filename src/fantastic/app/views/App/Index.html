@@ -1,5 +1,6 @@
-{{set . "title" "Home"}}
+{{set . "controllerName" .controllerName}}
 {{append . "moreStyles" "/css/main.css"}}
+{{set . "title" "Home"}}
 {{append . "moreScripts" "/js/main.js"}}
 {{template "header.html" .}}
 <div class="main"></div>

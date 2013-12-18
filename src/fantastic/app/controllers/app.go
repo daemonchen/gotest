@@ -14,8 +14,8 @@ type App struct {
 }
 
 func (c App) Index() revel.Result {
-	greeting := "Daemon"
-	return c.Render(greeting)
+	controllerName := "home"
+	return c.Render(controllerName)
 }
 
 func (c App) Hello(myName string) revel.Result {

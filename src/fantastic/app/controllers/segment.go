@@ -12,5 +12,6 @@ type Segment struct {
 }
 
 func (c *Segment) Index() revel.Result {
-	return c.Render()
+	controllerName := "segment"
+	return c.Render(controllerName)
 }
