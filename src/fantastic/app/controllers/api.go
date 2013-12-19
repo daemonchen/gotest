@@ -133,7 +133,13 @@ func (c *Api) Segment(text string) revel.Result {
 		ss = append(ss, &SegmentField{Text: segment.Token().Text(), Pos: segment.Token().Pos()})
 	}
 	response := &JsonResponse{Segments: ss}
-	fmt.Println(">>>>>>>>>>>>", response)
+	// fmt.Println(">>>>>>>>>>>>", response)
 	// go bayesLearn("hahah", "Good")
 	return c.RenderJson(response)
+}
+
+func (c *Api) Bayes(text string) revel.Result {
+	result := &Badge{3, 4}
+	fmt.Println("text:", text)
+	return c.RenderJson(result)
 }

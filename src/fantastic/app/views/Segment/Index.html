@@ -17,12 +17,27 @@
         </textarea>
       </div>
       <div class="field">
-        <div onclick="Segment()" class="ui blue button submit">分词</div>
+        <div id="segmentButton" class="ui blue button submit">分词</div>
       </div>
-      <textarea id="output" rows="30" cols="60" disabled></textarea>
-    </div>
-     <div class="field">
-        <div onclick="Segment()" class="ui blue button submit">提交样本</div>
+       <div class="field">
+          <textarea id="output" rows="30" cols="60" disabled></textarea>
+       </div>
+       <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="category" checked="checked">
+            <label>Good</label>
+
+          </div>
+          <div class="ui radio checkbox">
+
+            <input type="radio" name="category" >
+            <label>Bad</label>
+          </div>
+
+       </div>
+       <div class="field">
+         <div id="bayesButton" class="ui blue button submit">提交学习样本</div>
+       </div>
     </div>
 
 
