@@ -10,6 +10,8 @@ import (
 	"github.com/robfig/revel"
 	"io/ioutil"
 	"os"
+	"strconv"
+	"strings"
 
 	// "strings"
 )
@@ -66,6 +68,18 @@ type JsonResponse struct {
 	Segments []*SegmentField `json:"segments"`
 }
 
+type BayesLearnResult struct {
+	Status string `json:"status"`
+	Data   string `json:"data"`
+}
+
+type BayesScore struct {
+	Good   string `json:"good"`
+	Bad    string `json:"bad"`
+	Likely string `json:"likely"`
+	Strict bool   `json:"strict"`
+}
+
 const (
 	Good = "Good"
 	Bad  = "Bad"
@@ -101,7 +115,7 @@ func (c *Api) CheckBadgeInfo() revel.Result {
 	return c.RenderJson(result)
 }
 
-func bayesLearn(text []string, class Class) {
+func bayesLearn(text []string, class Class) *BayesLearnResult {
 	var classifier *Classifier
 	wd, _ := os.Getwd()
 	fmt.Println(">>>>>>os wd", wd)
@@ -113,15 +127,25 @@ func bayesLearn(text []string, class Class) {
 	writer := bytes.NewBuffer(nil)
 	classifier.WriteTo(writer)
 	ioutil.WriteFile("class.txt", writer.Bytes(), os.ModeAppend|os.ModePerm)
+	responseJson := &BayesLearnResult{"success", "bayes learn success"}
+	fmt.Println("classifier:", classifier)
+	return responseJson
 }
 
-// func (c *Api) logScores(text string) revel.Result {
-// 	classifier, _ := NewClassifierFromFile("class.txt")
-// 	fmt.Println(">>>>>>>>>classifier", classifier)
-// 	scores, likely, _ := classifier.LogScores([]string{"tall", "girl"})
-// 	fmt.Println("--->>>:", scores, likely)
-// 	return c.RenderJson(response)
-// }
+func (c *Api) LogScore(text string) revel.Result {
+	classifier, err := NewClassifierFromFile("class.txt")
+	if err != nil {
+		responseJson := &BayesLearnResult{"error", "get score failed"}
+		return c.RenderJson(responseJson)
+	} else {
+		// fmt.Println(">>>>>>>>>classifier", classifier)
+		scores, likely, strict := classifier.LogScores(strings.Fields(text))
+		fmt.Println("LogScore:", scores, likely)
+		responseJson := &BayesScore{strconv.FormatFloat(scores[0], 'f', 2, 64), strconv.FormatFloat(scores[1], 'f', 2, 64), string(classifier.Classes[likely]), strict}
+		fmt.Println("responseJson:", responseJson)
+		return c.RenderJson(responseJson)
+	}
+}
 
 func (c *Api) Segment(text string) revel.Result {
 	// 分词
@@ -134,12 +158,14 @@ func (c *Api) Segment(text string) revel.Result {
 	}
 	response := &JsonResponse{Segments: ss}
 	// fmt.Println(">>>>>>>>>>>>", response)
-	// go bayesLearn("hahah", "Good")
 	return c.RenderJson(response)
 }
 
-func (c *Api) Bayes(text string) revel.Result {
-	result := &Badge{3, 4}
-	fmt.Println("text:", text)
+func (c *Api) Bayes(category string, text string) revel.Result {
+	// space := []byte{' '}
+	parts := strings.Fields(text)
+	result := bayesLearn(parts, Class(category))
+	fmt.Println("result", result)
+
 	return c.RenderJson(result)
 }
