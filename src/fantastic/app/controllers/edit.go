@@ -20,3 +20,7 @@ func (c Edit) Index() revel.Result {
 	return c.Render(controllerName)
 
 }
+func (c *Edit) Post(title string, content string) revel.Result {
+	responseJson := &BayesLearnResult{"success", "article saved success"}
+	return c.RenderJson(responseJson)
+}

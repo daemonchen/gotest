@@ -6,5 +6,24 @@
 {{append . "moreScripts" "/js/md5.js"}}
 {{template "header.html" .}}
 <div class="main container">
+  <div class="ui form">
+      <div class="field">
+        <input id="title" type="text" placeholder="please input title"/>
+      </div>
+      <div class="field">
+        <span class="ui label">tags:(todo)</span>
+        <span class="ui label green">2013</span>
+        <span class="ui label green">2013</span>
+        <span class="ui label green">2013</span>
+      </div>
+      <div class="field">
+        <textarea id="content" rows="300" cols="60" style="height:600px;max-height:600px;">
+        </textarea>
+      </div>
+      <div class="field">
+        <div id="submit" class="ui blue button submit">提交</div>
+
+      </div>
+  </div>
 </div>
 {{template "footer.html" .}}
