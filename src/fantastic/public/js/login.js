@@ -103,6 +103,8 @@ semantic.validateForm.ready = function() {
         success: function(xhr,result,obj){
 
           console.log('login success')
+          window.location.href="/edit/index"
+          console.log("back");
         },
         error: function(obj,err,xhr){
           alert('username or password is wrong')

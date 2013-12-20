@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"fantastic/app/models"
-	"fmt"
+	// "fmt"
 	"github.com/jgraham909/revmgo"
 	"github.com/robfig/revel"
 )
@@ -24,16 +24,16 @@ func (c Login) Index() revel.Result {
 
 func (c Login) Login(username string, password string) revel.Result {
 	responseJson := &result{}
-	user := models.GetUserByName(c.MongoSession, "daemon")
+	user := models.GetUserByName(c.MongoSession, username)
 	if password == user.Password {
-		responseJson = &result{"success", "login success"}
 		c.Response.Status = 200
 		c.Session["islogin"] = "true"
+		return c.RenderJson(responseJson)
 	} else {
 		responseJson = &result{"caicaikana", "login failed"}
 		c.Response.Status = 403
 		c.Session["islogin"] = "false"
+		return c.RenderJson(responseJson)
+
 	}
-	fmt.Println(responseJson)
-	return c.RenderJson(responseJson)
 }
