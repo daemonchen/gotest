@@ -15,7 +15,7 @@ type Version struct {
 }
 
 func VersionCollection(s *mgo.Session) *mgo.Collection {
-	return s.DB("customer_behavior").C("people")
+	return s.DB("fantastic").C("people")
 }
 
 func (b *Version) Save(s *mgo.Session) error {

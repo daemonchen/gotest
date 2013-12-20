@@ -16,7 +16,7 @@ var dict = flag.String("dict", "src/fantastic/public/dictionary.txt", "词典文
 func init() {
 	revmgo.ControllerInit()
 	path, _ := os.Getwd()
-	fmt.Println("server start at >>>>>>", path)
+	fmt.Println("server start at:", path)
 	// 将线程数设置为CPU数
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
