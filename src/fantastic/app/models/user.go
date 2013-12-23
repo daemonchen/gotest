@@ -15,7 +15,7 @@ type User struct {
 }
 
 func Collection(s *mgo.Session) *mgo.Collection {
-	return s.DB("customer_behavior").C("people")
+	return s.DB("fantastic").C("people")
 }
 
 func GetUserByName(s *mgo.Session, Name string) *User {

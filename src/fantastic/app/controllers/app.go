@@ -6,16 +6,20 @@ import (
 	"fmt"
 	"github.com/jgraham909/revmgo"
 	"github.com/robfig/revel"
+	// "labix.org/v2/mgo/bson"
 )
 
 type App struct {
 	*revel.Controller
 	revmgo.MongoController
 }
+type posts []interface{}
 
 func (c App) Index() revel.Result {
 	controllerName := "home"
-	return c.Render(controllerName)
+	posts := models.GetAllPosts(c.MongoSession)
+	fmt.Println("posts:", posts)
+	return c.Render(controllerName, posts)
 }
 
 func (c App) Hello(myName string) revel.Result {
