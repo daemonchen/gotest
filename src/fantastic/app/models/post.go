@@ -14,7 +14,7 @@ type Post struct {
 	Stamp   string        `bson:"stamp"`
 }
 
-type posts []interface{}
+type posts []*Post
 
 func getPostsCollection(s *mgo.Session) *mgo.Collection {
 	return s.DB("fantastic").C("posts")
@@ -31,8 +31,8 @@ func GetPostModel(id bson.ObjectId, title string, content string, stamp string) 
 	post := &Post{id, title, content, stamp}
 	return post
 }
-func GetAllPosts(s *mgo.Session) *posts {
+func GetAllPosts(s *mgo.Session) posts {
 	var posts posts
 	getPostsCollection(s).Find(nil).All(&posts)
-	return &posts
+	return posts
 }

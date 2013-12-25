@@ -3,16 +3,17 @@
 {{set . "title" "Home"}}
 {{append . "moreScripts" "/js/main.js"}}
 {{template "header.html" .}}
-<div class="main">
-  <ul>
+<div class="main container">
+  <div class="ui animated list">
     {{range .posts}}
-      <li>
-        <div>{{.title}}</div>
-        <div>{{.content}}</div>
-        <div>{{.stamp}}</div>
-      </li>
+      <a class="item">
+        <i class="right triangle icon"></i>
+        {{.Title}}
+
+      </a>
+      <div class="description">{{.Stamp}}</div>
     {{end}}
-  </ul>
+  </div>
 </div>
 
 {{template "footer.html" .}}
