@@ -6,12 +6,12 @@
 <div class="main container">
   <div class="ui animated list">
     {{range .posts}}
-      <a class="item">
+      <a class="item" href="/post/index?stamp={{.Stamp}}">
         <i class="right triangle icon"></i>
         {{.Title}}
 
       </a>
-      <div class="description">{{.Stamp}}</div>
+      <!-- <div class="description">{{.Stamp}}</div> -->
     {{end}}
   </div>
 </div>

@@ -1,0 +1,11 @@
+{{set . "title" "Post"}}
+{{set . "controllerName" .controllerName}}
+{{append . "moreStyles" "/css/main.css"}}
+{{append . "moreScripts" "/js/main.js"}}
+{{template "header.html" .}}
+<div class="main container">
+  <h2 class="ui dividing header">{{.post.Title}}</h2>
+  <h4 class="ui header">{{.post.Stamp}}</h4>
+  <p>{{.post.Content}}</p>
+</div>
+{{template "footer.html" .}}

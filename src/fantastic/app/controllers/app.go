@@ -7,8 +7,8 @@ import (
 	"github.com/jgraham909/revmgo"
 	"github.com/robfig/revel"
 	// "labix.org/v2/mgo/bson"
-	"strconv"
-	"time"
+	// "strconv"
+	// "time"
 )
 
 type App struct {
@@ -20,14 +20,14 @@ type posts []interface{}
 func (c App) Index() revel.Result {
 	controllerName := "home"
 	posts := models.GetAllPosts(c.MongoSession)
-	for _, post := range posts {
-		time4int64, _ := strconv.ParseInt(post.Stamp, 10, 64)
-		timeUtc := time.Unix(time4int64, 0)
-		const layout = "Jan 2, 2006 at 3:04pm (MST)"
-		fmt.Println("post:", post)
-		fmt.Println("post time:", timeUtc.Format(layout))
+	// for _, post := range posts {
+	// 	time4int64, _ := strconv.ParseInt(post.Stamp, 10, 64)
+	// 	timeUtc := time.Unix(time4int64, 0)
+	// 	const layout = "Jan 2, 2006 at 3:04pm (MST)"
+	// 	// fmt.Println("post:", post)
+	// 	fmt.Println("post time:", timeUtc.Format(layout))
 
-	}
+	// }
 	return c.Render(controllerName, posts)
 }
 

@@ -36,3 +36,9 @@ func GetAllPosts(s *mgo.Session) posts {
 	getPostsCollection(s).Find(nil).All(&posts)
 	return posts
 }
+
+func GetPostByStamp(s *mgo.Session, stamp string) *Post {
+	p := new(Post)
+	getPostsCollection(s).Find(bson.M{"stamp": stamp}).One(p)
+	return p
+}
