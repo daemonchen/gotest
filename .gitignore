@@ -2,3 +2,4 @@
 /pkg/*
 /src/*
 !/src/fantastic/*
+class.txt
