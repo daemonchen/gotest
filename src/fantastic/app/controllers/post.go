@@ -20,7 +20,7 @@ func (c *Post) Index(stamp string) revel.Result {
 	isLogin := c.Session["islogin"]
 
 	post := models.GetPostByStamp(c.MongoSession, stamp)
-	append(currentPost, post)
+	currentPost = append(currentPost, post)
 	// time4int64, _ := strconv.ParseInt(post.Stamp, 10, 64)
 	// timeUtc := time.Unix(time4int64, 0)
 	// const layout = "Jan 2, 2006 at 3:04pm (MST)"
