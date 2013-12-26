@@ -3,7 +3,7 @@
 {{append . "moreStyles" "/css/main.css"}}
 {{append . "moreScripts" "/js/main.js"}}
 {{append . "moreScripts" "/js/edit.js"}}
-{{append . "moreScripts" "/js/md5.js"}}
+{{append . "moreScripts" "/js/ckeditor.js"}}
 {{template "header.html" .}}
 <div class="main container">
   <div class="ui form">
@@ -17,7 +17,7 @@
         <span class="ui label green">2013</span>
       </div>
       <div class="field">
-        <textarea id="content" rows="300" cols="60" style="height:600px;max-height:600px;">
+        <textarea id="content" name="content" rows="10" cols="80">
         </textarea>
       </div>
       <div class="field">

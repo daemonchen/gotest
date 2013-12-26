@@ -1,7 +1,10 @@
 $(function(){
+  var editorContent = CKEDITOR.replace( 'content' );
   var doClear = function(){
     $("#title").val("");
-    $("#content").val("");
+    editorContent.setData("",function(){
+      console.log("clear content when init");
+    })
     window.localStorage.clear();
   }
   var title = window.localStorage.getItem("edittingArticleTitle");
@@ -10,17 +13,19 @@ $(function(){
     $("#title").val(title)
   }
   if(content&&content.length>0){
-    $("#content").val(content)
+    editorContent.setData(content)
   }
   $("#title").keyup(function(){
     window.localStorage.setItem("edittingArticleTitle",$(this).val());
   });
-  $("#content").keyup(function(){
-    window.localStorage.setItem("edittingArticleContent",$(this).val());
-  });
+  editorContent.on("key",function(evt){
+    console.log("data when click:",evt.editor.getData())
+    window.localStorage.setItem("edittingArticleContent",evt.editor.getData());
+  })
+
   $("#submit").click(function(){
     var articleTitle = $("#title").val();
-    var articleContent = $("#content").val();
+    var articleContent = editorContent.getData()
     if(articleTitle.length == 0 || articleContent.length == 0){
       console.log("你在逗我么");
     }
