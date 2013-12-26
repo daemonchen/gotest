@@ -1,5 +1,5 @@
-/bin/*
-/pkg/*
-/src/*
-!/src/fantastic/*
+bin/*
+pkg/*
+src/*
+!src/fantastic/*
 class.txt
