@@ -27,6 +27,13 @@ func (c *Edit) Post(title string, content string) revel.Result {
 	responseJson := &BayesLearnResult{"success", "article saved success"}
 	post := models.GetPostModel(bson.NewObjectId(), title, content, strconv.FormatInt(time.Now().Unix(), 10))
 	post.Save(c.MongoSession)
-	fmt.Println("post to save:", post)
+	fmt.Println("post to save success")
+	return c.RenderJson(responseJson)
+}
+
+func (c *Edit) Update(stamp string, content string) revel.Result {
+	responseJson := &BayesLearnResult{stamp, content}
+	// post := models.GetPostModel(bson.NewObjectId(), title, content, strconv.FormatInt(time.Now().Unix(), 10))
+	fmt.Println("post updated success")
 	return c.RenderJson(responseJson)
 }

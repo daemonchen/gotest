@@ -1,11 +1,21 @@
 {{set . "title" "Post"}}
 {{set . "controllerName" .controllerName}}
 {{append . "moreStyles" "/css/main.css"}}
-{{append . "moreScripts" "/js/main.js"}}
+{{append . "moreScripts" "/js/ckeditor.js"}}
+{{append . "moreScripts" "/js/moment.js"}}
+{{append . "moreScripts" "/js/post.js"}}
 {{template "header.html" .}}
 <div class="main container">
+  <span id="stamp" style="display:none;">{{.post.Stamp}}</span>
   <h2 class="ui dividing header">{{.post.Title}}</h2>
-  <h4 class="ui header">{{.post.Stamp}}</h4>
-  <p>{{raw .post.Content}}</p>
+  <h4 class="ui header" id="time"></h4>
+  {{if eq .isLogin "true"}}
+    <div class="ui green label horizontal">点击文章内容可以编辑</div>
+    <div class="ui right menu purple button mini horizontal" id="save">
+      <i class="save icon"></i>
+      save
+    </div>
+  {{end}}
+  <div id="editor" contenteditable={{.isLogin}}>{{raw .post.Content}}</div>
 </div>
 {{template "footer.html" .}}
