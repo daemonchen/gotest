@@ -14,7 +14,7 @@ type Post struct {
 	revmgo.MongoController
 }
 
-var currentPost []*models.Post{}
+var currentPost []*models.Post
 func (c *Post) Index(stamp string) revel.Result {
 	controllerName := "home"
 	isLogin := c.Session["islogin"]
