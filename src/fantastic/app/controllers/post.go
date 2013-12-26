@@ -14,13 +14,13 @@ type Post struct {
 	revmgo.MongoController
 }
 
-var currentPost []interface{}
+// var currentPost []interface{}
 func (c *Post) Index(stamp string) revel.Result {
 	controllerName := "home"
 	isLogin := c.Session["islogin"]
 
 	post := models.GetPostByStamp(c.MongoSession, stamp)
-	currentPost = append(currentPost, post)
+	CurrentPost := post
 	// time4int64, _ := strconv.ParseInt(post.Stamp, 10, 64)
 	// timeUtc := time.Unix(time4int64, 0)
 	// const layout = "Jan 2, 2006 at 3:04pm (MST)"
@@ -31,9 +31,9 @@ func (c *Post) Index(stamp string) revel.Result {
 
 func (c *Post) Update(stamp string, content string) revel.Result {
 	responseJson := &BayesLearnResult{stamp, "success update"}
-	post := currentPost[0]
-	post.Content = content
-	err := post.Update(c.MongoSession, stamp)
+	// post := currentPost[0]
+	CurrentPost.Content = content
+	err := CurrentPost.Update(c.MongoSession, stamp)
 	if err != nil {
 		fmt.Println("occur err when update:",err)
 	}
