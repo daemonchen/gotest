@@ -42,3 +42,11 @@ func GetPostByStamp(s *mgo.Session, stamp string) *Post {
 	getPostsCollection(s).Find(bson.M{"stamp": stamp}).One(p)
 	return p
 }
+
+func (b *Post) Update(s *mgo.Session, stamp string) error {
+	err := getPostsCollection(s).Update(bson.M{"stamp": stamp}, b)
+	if err != nil {
+		fmt.Println("update post occur error:", err)
+	}
+	return err
+}

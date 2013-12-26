@@ -30,7 +30,7 @@ func (c *Edit) Post(title string, content string) revel.Result {
 	fmt.Println("post to save success")
 	return c.RenderJson(responseJson)
 }
-
+//delete update when post update is finished
 func (c *Edit) Update(stamp string, content string) revel.Result {
 	responseJson := &BayesLearnResult{stamp, content}
 	// post := models.GetPostModel(bson.NewObjectId(), title, content, strconv.FormatInt(time.Now().Unix(), 10))
