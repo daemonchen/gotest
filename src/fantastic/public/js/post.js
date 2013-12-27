@@ -22,7 +22,7 @@ $(function(){
       console.log("你在逗我么");
     }
     $.ajax({
-        url: "/edit/update",
+        url: "/post/update",
         type: "POST",
         data: { stamp: stamp, content: articleContent},
         dataType: "json",

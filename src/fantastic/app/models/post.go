@@ -43,8 +43,11 @@ func GetPostByStamp(s *mgo.Session, stamp string) *Post {
 	return p
 }
 
-func (b *Post) Update(s *mgo.Session, stamp string) error {
-	err := getPostsCollection(s).Update(bson.M{"stamp": stamp}, b)
+func UpdatePost(s *mgo.Session, stamp string, content string) error {
+	colQuerier := bson.M{"stamp": stamp}
+	change := bson.M{"$set": bson.M{"content": content}}
+
+	err := getPostsCollection(s).Update(colQuerier, change)
 	if err != nil {
 		fmt.Println("update post occur error:", err)
 	}
