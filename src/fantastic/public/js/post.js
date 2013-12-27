@@ -9,7 +9,7 @@ $(document)
 var formatTimeLabel = function(){
   var stamp = parseInt($("#stamp").html())
   // moment(stamp*1000).format("YYYY:MM:DD  hh:mm:ss")
-  $("#time").html(moment(stamp*1000).format("YYYY年MM月DD日  hh:mm:ss"))
+  $("#time").html(moment(stamp*1000).format("YYYY年MM月DD日  HH:mm:ss"))
 }
 $(function(){
   formatTimeLabel()
