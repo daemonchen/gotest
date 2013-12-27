@@ -16,6 +16,6 @@
       save
     </div>
   {{end}}
-  <div id="editor" contenteditable={{.isLogin}}>{{raw .post.Content}}</div>
+  <div id="editor" {{if eq .isLogin "true"}}contenteditable="true"{{end}}>{{raw .post.Content}}</div>
 </div>
 {{template "footer.html" .}}

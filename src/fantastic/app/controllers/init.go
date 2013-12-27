@@ -2,10 +2,9 @@ package controllers
 
 import (
 	"flag"
-	// "revel.WARN"
 	"github.com/huichen/sego"
 	"github.com/jgraham909/revmgo"
-	"os"
+	// "os"
 	// "path/filepath"
 	"runtime"
 )
@@ -15,8 +14,7 @@ var dict = flag.String("dict", "src/fantastic/public/dictionary.txt", "词典文
 
 func init() {
 	revmgo.ControllerInit()
-	path, _ := os.Getwd()
-	revel.WARN.Println("server start at:", path)
+	// path, _ := os.Getwd()
 	// 将线程数设置为CPU数
 	runtime.GOMAXPROCS(runtime.NumCPU())
 

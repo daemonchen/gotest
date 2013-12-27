@@ -25,7 +25,7 @@ func (c *Post) Index(stamp string) revel.Result {
 	// post.Stamp = timeUtc.Format(layout)
 	revel.WARN.Println("query post success")
 	return c.Render(controllerName, isLogin, post)
-// }
+}
 
 func (c *Post) Update(stamp string, content string) revel.Result {
 	responseJson := &BayesLearnResult{stamp, "success update"}
@@ -33,6 +33,6 @@ func (c *Post) Update(stamp string, content string) revel.Result {
 	if err != nil {
 		revel.WARN.Println("occur err when update:", err)
 	}
-	// revel.WARN.Println("post updated success")
+	revel.WARN.Println("post updated success")
 	return c.RenderJson(responseJson)
-// }
+}

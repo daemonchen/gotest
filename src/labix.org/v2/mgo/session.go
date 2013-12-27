@@ -398,7 +398,6 @@ func (s *Session) DB(name string) *Database {
 // Creating this value is a very lightweight operation, and
 // involves no network communication.
 func (db *Database) C(name string) *Collection {
-	revel.WARN.Println("=====db.c", name)
 	return &Collection{db, name, db.Name + "." + name}
 }
 
@@ -457,15 +456,10 @@ func (db *Database) GridFS(prefix string) *GridFS {
 //     http://www.mongodb.org/display/DOCS/List+of+Database+CommandSkips
 //
 func (db *Database) Run(cmd interface{}, result interface{}) error {
-	revel.WARN.Println("====cmd", cmd)
 	if name, ok := cmd.(string); ok {
-		revel.WARN.Println("====cmd.string", cmd, ok)
-
 		cmd = bson.D{{name, 1}}
 	}
-	revel.WARN.Println("======cmd 2:", cmd)
-	db.C("$cmd").Find(cmd).One(result)
-	return nil
+	return db.C("$cmd").Find(cmd).One(result)
 }
 
 // Login authenticates against MongoDB with the provided credentials.  The
