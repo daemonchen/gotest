@@ -1,4 +1,4 @@
-bin/*
-pkg/*
+/bin
+/pkg
 /src/github.com/
 class.txt
