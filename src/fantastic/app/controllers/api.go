@@ -4,7 +4,7 @@ import (
 	// "encoding/json"
 	// "fantastic/app/models"
 	"bytes"
-	"fmt"
+	// "fmt"
 	. "github.com/jbrukh/bayesian"
 	"github.com/jgraham909/revmgo"
 	"github.com/robfig/revel"
@@ -118,7 +118,7 @@ func (c *Api) CheckBadgeInfo() revel.Result {
 func bayesLearn(text []string, class Class) *BayesLearnResult {
 	var classifier *Classifier
 	wd, _ := os.Getwd()
-	fmt.Println(">>>>>>os wd", wd)
+	revel.WARN.Println(">>>>>>os wd", wd)
 	classifier, err := NewClassifierFromFile("class.txt")
 	if err != nil {
 		classifier = NewClassifier(Good, Bad)
@@ -128,7 +128,7 @@ func bayesLearn(text []string, class Class) *BayesLearnResult {
 	classifier.WriteTo(writer)
 	ioutil.WriteFile("class.txt", writer.Bytes(), os.ModeAppend|os.ModePerm)
 	responseJson := &BayesLearnResult{"success", "bayes learn success"}
-	fmt.Println("classifier:", classifier)
+	revel.WARN.Println("classifier:", classifier)
 	return responseJson
 }
 
@@ -138,11 +138,11 @@ func (c *Api) LogScore(text string) revel.Result {
 		responseJson := &BayesLearnResult{"error", "get score failed"}
 		return c.RenderJson(responseJson)
 	} else {
-		// fmt.Println(">>>>>>>>>classifier", classifier)
+		// revel.WARN.Println(">>>>>>>>>classifier", classifier)
 		scores, likely, strict := classifier.LogScores(strings.Fields(text))
-		fmt.Println("LogScore:", scores, likely)
+		revel.WARN.Println("LogScore:", scores, likely)
 		responseJson := &BayesScore{strconv.FormatFloat(scores[0], 'f', 2, 64), strconv.FormatFloat(scores[1], 'f', 2, 64), string(classifier.Classes[likely]), strict}
-		fmt.Println("responseJson:", responseJson)
+		revel.WARN.Println("responseJson:", responseJson)
 		return c.RenderJson(responseJson)
 	}
 }
@@ -157,7 +157,7 @@ func (c *Api) Segment(text string) revel.Result {
 		ss = append(ss, &SegmentField{Text: segment.Token().Text(), Pos: segment.Token().Pos()})
 	}
 	response := &JsonResponse{Segments: ss}
-	// fmt.Println(">>>>>>>>>>>>", response)
+	// revel.WARN.Println(">>>>>>>>>>>>", response)
 	return c.RenderJson(response)
 }
 
@@ -165,7 +165,7 @@ func (c *Api) Bayes(category string, text string) revel.Result {
 	// space := []byte{' '}
 	parts := strings.Fields(text)
 	result := bayesLearn(parts, Class(category))
-	fmt.Println("result", result)
+	revel.WARN.Println("result", result)
 
 	return c.RenderJson(result)
 }

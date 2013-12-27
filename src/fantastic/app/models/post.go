@@ -2,7 +2,7 @@ package models
 
 import (
 	// "encoding/json"
-	"fmt"
+	// "fmt"
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
 )
@@ -22,7 +22,7 @@ func getPostsCollection(s *mgo.Session) *mgo.Collection {
 func (b *Post) Save(s *mgo.Session) error {
 	err := getPostsCollection(s).Insert(b)
 	if err != nil {
-		fmt.Println("save post occur error:", err)
+		revel.WARN.Println("save post occur error:", err)
 	}
 	return err
 }
@@ -49,7 +49,7 @@ func UpdatePost(s *mgo.Session, stamp string, content string) error {
 
 	err := getPostsCollection(s).Update(colQuerier, change)
 	if err != nil {
-		fmt.Println("update post occur error:", err)
+		revel.WARN.Println("update post occur error:", err)
 	}
 	return err
 }

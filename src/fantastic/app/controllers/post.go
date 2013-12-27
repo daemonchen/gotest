@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"fantastic/app/models"
-	"fmt"
 	"github.com/jgraham909/revmgo"
 	"github.com/robfig/revel"
+	// "fmt"
 	// "strconv"
 	// "time"
 )
@@ -23,16 +23,16 @@ func (c *Post) Index(stamp string) revel.Result {
 	// timeUtc := time.Unix(time4int64, 0)
 	// const layout = "Jan 2, 2006 at 3:04pm (MST)"
 	// post.Stamp = timeUtc.Format(layout)
-	fmt.Println("query post success")
+	revel.WARN.Println("query post success")
 	return c.Render(controllerName, isLogin, post)
-}
+// }
 
 func (c *Post) Update(stamp string, content string) revel.Result {
 	responseJson := &BayesLearnResult{stamp, "success update"}
 	err := models.UpdatePost(c.MongoSession, stamp, content)
 	if err != nil {
-		fmt.Println("occur err when update:", err)
+		revel.WARN.Println("occur err when update:", err)
 	}
-	fmt.Println("post updated success")
+	// revel.WARN.Println("post updated success")
 	return c.RenderJson(responseJson)
-}
+// }

@@ -2,7 +2,7 @@ package models
 
 import (
 	// "encoding/json"
-	"fmt"
+	// "fmt"
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
 )
@@ -21,14 +21,14 @@ func Collection(s *mgo.Session) *mgo.Collection {
 func GetUserByName(s *mgo.Session, Name string) *User {
 	b := new(User)
 	Collection(s).Find(bson.M{"username": Name}).One(b)
-	fmt.Println(">>>>>>query result:", b)
+	revel.WARN.Println(">>>>>>query result:", b)
 	return b
 }
 
 func GetAllUsers(s *mgo.Session) []User {
 	var result []User
 	Collection(s).Find(nil).Iter().All(&result)
-	fmt.Println(">>>>>>>>>all users: ", result)
+	revel.WARN.Println(">>>>>>>>>all users: ", result)
 	return result
 }
 

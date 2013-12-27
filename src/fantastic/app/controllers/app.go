@@ -3,7 +3,7 @@ package controllers
 import (
 	// "encoding/json"
 	"fantastic/app/models"
-	"fmt"
+	// "fmt"
 	"github.com/jgraham909/revmgo"
 	"github.com/robfig/revel"
 	// "labix.org/v2/mgo/bson"
@@ -49,6 +49,6 @@ func (c App) Users() revel.Result {
 
 func (c *App) AllUsers() revel.Result {
 	data := models.GetAllUsers(c.MongoSession)
-	fmt.Println(">>>>>>all users in action:", data)
+	revel.WARN.Println(">>>>>>all users in action:", data)
 	return c.RenderJson(data)
 }
