@@ -12,6 +12,7 @@ var formatTimeLabel = function(){
   $("#time").html(moment(stamp*1000).format("YYYY年MM月DD日  HH:mm:ss"))
 }
 $(function(){
+  //editable for content
   formatTimeLabel()
   $("#save").click(function(){
     var contentEditable = CKEDITOR.instances.editor
@@ -35,4 +36,8 @@ $(function(){
         }
     });
   })
+
+  //comments
+
+  var editorComment = CKEDITOR.replace( 'comment' );
 });
