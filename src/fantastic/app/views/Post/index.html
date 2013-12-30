@@ -28,5 +28,38 @@
   <div id="editor" {{if eq .isLogin "true"}}contenteditable="true"{{end}}>{{raw .post.Content}}</div>
   <!-- comments -->
   <h1 class="ui dividing">Comments</h1>
+
+  <div class="ui comments">
+    <div class="comment">
+      <a class="avatar">
+        <img src="/images/demo/avatar.jpg">
+      </a>
+      <div class="content">
+        <a class="author">Dog Doggington</a>
+        <div class="metadata">
+          <div class="date">2 days ago</div>
+        </div>
+        <div class="text">
+          I think this is a great idea and i am voting on it
+        </div>
+        <div class="actions">
+          <a class="reply">Reply</a>
+          <a class="delete">Delete</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui divider"></div>
+
+  </div>
+
+  <form class="ui reply form">
+    <div class="field">
+      <textarea></textarea>
+    </div>
+    <div class="ui fluid blue labeled submit icon button">
+      <i class="icon edit"></i> Add Reply
+    </div>
+  </form>
 </div>
 {{template "footer.html" .}}
