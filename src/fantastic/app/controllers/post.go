@@ -59,8 +59,7 @@ func (c *Post) clearCommentCacheValue() {
 }
 func (c *Post) AddComment(commentData string) revel.Result {
 	hashKey := c.generateSessionKey()
-	var commentCache CommentCache
-	if cacheErr := cache.Get(c.Session[string(hashKey[:])], &commentCache); cacheErr != nil {
+	if cacheErr := cache.Get(c.Session[string(hashKey[:])], &CommentCache); cacheErr != nil {
 		err := models.SaveComment(c.MongoSession, commentData)
 		if err != nil {
 			revel.WARN.Println("occur err when update:", err)
