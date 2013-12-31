@@ -6,7 +6,7 @@ import (
 	"fantastic/app/models"
 	"github.com/jgraham909/revmgo"
 	"github.com/robfig/revel"
-	"github.com/robfig/revel/cache"
+	// "github.com/robfig/revel/cache"
 	"io"
 	// "labix.org/v2/mgo/bson"
 	// "fmt"
@@ -20,7 +20,7 @@ type Post struct {
 	revmgo.MongoController
 }
 
-var CommentCache string
+var CommentCache map[string]string
 
 func (c *Post) generateSessionKey() []byte {
 	md5Key := md5.New()
@@ -35,7 +35,7 @@ func (c *Post) Index(stamp string) revel.Result {
 	randNum := rand.Int63n(time.Now().Unix())
 	hashKey := c.generateSessionKey()
 	c.Session[string(hashKey[:])] = strconv.FormatInt(randNum, 10)
-	cache.Set(strconv.FormatInt(randNum, 10), "true", 30*time.Minute)
+	CommentCache[strconv.FormatInt(randNum, 10)] = "true"
 
 	post := models.GetPostByStamp(c.MongoSession, stamp)
 	comments := models.GetCommentsByStamp(c.MongoSession, stamp)
@@ -55,26 +55,23 @@ func (c *Post) Update(stamp string, content string) revel.Result {
 
 func (c *Post) clearCommentCacheValue() {
 	hashKey := c.generateSessionKey()
-	cache.Delete(c.Session[string(hashKey[:])])
+	CommentCache[c.Session[string(hashKey[:])]] = "diff"
 }
 func (c *Post) AddComment(commentData string) revel.Result {
 	hashKey := c.generateSessionKey()
-	if cacheErr := cache.Get(c.Session[string(hashKey[:])], &CommentCache); cacheErr != nil {
-		err := models.SaveComment(c.MongoSession, commentData)
-		if err != nil {
-			revel.WARN.Println("occur err when update:", err)
-			c.Response.Status = 403
-			return c.RenderJson(&BayesLearnResult{"failed", "insert comment failed"})
-		}
-		c.clearCommentCacheValue()
-		c.Response.Status = 200
-		return c.RenderJson(&BayesLearnResult{"success", "insert comment success"})
-
-	} else {
-		revel.WARN.Println("cache get err:", cacheErr)
+	if CommentCache[c.Session[string(hashKey[:])]] == "diff" {
+		revel.WARN.Println("CommentCache is diff")
 		c.Response.Status = 403
 		return c.RenderJson(&BayesLearnResult{"failed", "you can't comment now, please refresh page and wait for a moment"})
-
 	}
+	err := models.SaveComment(c.MongoSession, commentData)
+	if err != nil {
+		revel.WARN.Println("occur err when update:", err)
+		c.Response.Status = 403
+		return c.RenderJson(&BayesLearnResult{"failed", "insert comment failed"})
+	}
+	c.clearCommentCacheValue()
+	c.Response.Status = 200
+	return c.RenderJson(&BayesLearnResult{"success", "insert comment success"})
 
 }
