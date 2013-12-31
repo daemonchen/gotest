@@ -10,23 +10,16 @@ import (
 	// "labix.org/v2/mgo/bson"
 	// "fmt"
 	"math/rand"
-	// "strconv"
+	"strconv"
 	"time"
 )
 
 type Post struct {
 	*revel.Controller
 	revmgo.MongoController
+	commentHashSessionValue string
 }
 
-// type Comment struct {
-// 	// Id            bson.ObjectId `json:"_id,omitempty"`
-// 	RelativeStamp string `json:"relativeStamp"`
-// 	UserName      string `json:"userName"`
-// 	UserEmail     string `json:"userEmail"`
-// 	CommentText   string `json:"commentText"`
-// 	CommentTime   string `json:"commentTime"`
-// }
 func (c *Post) generateSessionKey() []byte {
 	md5Key := md5.New()
 	io.WriteString(md5Key, "this is my first hash session key")
@@ -39,11 +32,11 @@ func (c *Post) Index(stamp string) revel.Result {
 
 	randNum := rand.Int63n(time.Now().Unix())
 	hashKey := c.generateSessionKey()
-	c.Session[string(hashKey[:])] = randNum
+	c.Session[string(hashKey[:])] = strconv.FormatInt(randNum, 10)
+	c.commentHashSessionValue = c.Session[string(hashKey[:])]
 
 	post := models.GetPostByStamp(c.MongoSession, stamp)
 	comments := models.GetCommentsByStamp(c.MongoSession, stamp)
-
 	return c.Render(controllerName, isLogin, post, comments)
 }
 
@@ -60,13 +53,13 @@ func (c *Post) Update(stamp string, content string) revel.Result {
 
 func (c *Post) clearCommentSession() {
 	hashKey := c.generateSessionKey()
-	c.Session[string(hashKey[:])] = nil
+	c.Session[string(hashKey[:])] = "clear"
 }
 func (c *Post) AddComment(commentData string) revel.Result {
 	hashKey := c.generateSessionKey()
-	if c.Session[string(hashKey[:])] == nil {
+	if c.Session[string(hashKey[:])] != c.commentHashSessionValue {
 		c.Response.Status = 403
-		return c.RenderJson(&BayesLearnResult{"failed", "you can't comment now, please wait for a moment"})
+		return c.RenderJson(&BayesLearnResult{"failed", "you can't comment now, please refresh page and wait for a moment"})
 	}
 
 	err := models.SaveComment(c.MongoSession, commentData)
