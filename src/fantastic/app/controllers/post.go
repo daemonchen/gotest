@@ -20,7 +20,7 @@ type Post struct {
 	revmgo.MongoController
 }
 
-type CommentCache bool
+type CommentCache string
 
 func (c *Post) generateSessionKey() []byte {
 	md5Key := md5.New()
@@ -35,7 +35,7 @@ func (c *Post) Index(stamp string) revel.Result {
 	randNum := rand.Int63n(time.Now().Unix())
 	hashKey := c.generateSessionKey()
 	c.Session[string(hashKey[:])] = strconv.FormatInt(randNum, 10)
-	cache.Set(strconv.FormatInt(randNum, 10), true, 30*time.Minute)
+	cache.Set(strconv.FormatInt(randNum, 10), "true", 30*time.Minute)
 
 	post := models.GetPostByStamp(c.MongoSession, stamp)
 	comments := models.GetCommentsByStamp(c.MongoSession, stamp)
