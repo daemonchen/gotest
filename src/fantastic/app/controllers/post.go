@@ -2,13 +2,16 @@ package controllers
 
 import (
 	// "encoding/json"
+	"crypto/md5"
 	"fantastic/app/models"
 	"github.com/jgraham909/revmgo"
 	"github.com/robfig/revel"
+	"io"
 	// "labix.org/v2/mgo/bson"
 	// "fmt"
-	// "strconv"
-	// "time"
+	"math/rand"
+	"strconv"
+	"time"
 )
 
 type Post struct {
@@ -24,20 +27,28 @@ type Post struct {
 // 	CommentText   string `json:"commentText"`
 // 	CommentTime   string `json:"commentTime"`
 // }
+func (c *Post) generateSessionKey(data string) []byte {
+	md5Key := md5.New()
+	io.WriteString(md5Key, data)
+	return md5Key.Sum("daemonchen")
 
+}
 func (c *Post) Index(stamp string) revel.Result {
 	controllerName := "home"
 	isLogin := c.Session["islogin"]
 
+	randNum := rand.Int63n(time.Now().Unix())
+	hashKey := generateSessionKey("this is my first hash session key")
+	revel.WARN.Println("randNum:", randNum, hashKey)
+
 	post := models.GetPostByStamp(c.MongoSession, stamp)
 	comments := models.GetCommentsByStamp(c.MongoSession, stamp)
-	revel.WARN.Println("query post success")
-	revel.WARN.Println("commentData host:", c.Request.RemoteAddr)
 
 	return c.Render(controllerName, isLogin, post, comments)
 }
 
 func (c *Post) Update(stamp string, content string) revel.Result {
+	revel.WARN.Println("commentData host:", c.Request.RemoteAddr)
 	responseJson := &BayesLearnResult{stamp, "success update"}
 	err := models.UpdatePost(c.MongoSession, stamp, content)
 	if err != nil {
