@@ -58,6 +58,8 @@ func (c *Post) clearCommentSession() {
 func (c *Post) AddComment(commentData string) revel.Result {
 	hashKey := c.generateSessionKey()
 	if c.Session[string(hashKey[:])] != c.commentHashSessionValue {
+		revel.WARN.Println("c.Session[string(hashKey[:])]:", c.Session[string(hashKey[:])])
+		revel.WARN.Println("c.commentHashSessionValue", c.commentHashSessionValue)
 		c.Response.Status = 403
 		return c.RenderJson(&BayesLearnResult{"failed", "you can't comment now, please refresh page and wait for a moment"})
 	}
