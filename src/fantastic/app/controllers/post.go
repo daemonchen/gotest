@@ -64,9 +64,9 @@ func (c *Post) clearCommentSession() {
 }
 func (c *Post) AddComment(commentData string) revel.Result {
 	hashKey := c.generateSessionKey()
-	if c.Session[string(hashKey[:])] == nil{
+	if c.Session[string(hashKey[:])] == nil {
 		c.Response.Status = 403
-		return c.RenderJson(&BayesLearnResult{"failed", "you can't comment now, please wait for a moment")
+		return c.RenderJson(&BayesLearnResult{"failed", "you can't comment now, please wait for a moment"})
 	}
 
 	err := models.SaveComment(c.MongoSession, commentData)
