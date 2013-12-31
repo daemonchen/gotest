@@ -96,7 +96,7 @@ $(function(){
   $(".submit").click(function(){
     var commentData = {
       relativeStamp: stamp,
-      userName: $("#username").val(),
+      userName: $("#username").val() || "游客",
       userEmail: $("#email").val(),
       commentText: editorComment.getData(),
       commentTime: new Date().valueOf().toString()
