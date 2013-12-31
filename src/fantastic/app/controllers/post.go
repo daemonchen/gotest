@@ -29,7 +29,7 @@ type Post struct {
 // }
 func (c *Post) generateSessionKey(data string) []byte {
 	md5Key := md5.New()
-	io.WriteString(md5Key, data)
+	io.WriteString(md5Key, []byte(data))
 	return md5Key.Sum("daemonchen")
 
 }
@@ -38,7 +38,7 @@ func (c *Post) Index(stamp string) revel.Result {
 	isLogin := c.Session["islogin"]
 
 	randNum := rand.Int63n(time.Now().Unix())
-	hashKey := generateSessionKey("this is my first hash session key")
+	hashKey := c.generateSessionKey("this is my first hash session key")
 	revel.WARN.Println("randNum:", randNum, hashKey)
 
 	post := models.GetPostByStamp(c.MongoSession, stamp)
