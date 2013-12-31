@@ -20,7 +20,7 @@ type Post struct {
 	revmgo.MongoController
 }
 
-var CommentCache map[string]string
+var CommentCache = make(map[string]string)
 
 func (c *Post) generateSessionKey() []byte {
 	md5Key := md5.New()
