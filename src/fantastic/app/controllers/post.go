@@ -32,6 +32,8 @@ func (c *Post) Index(stamp string) revel.Result {
 	post := models.GetPostByStamp(c.MongoSession, stamp)
 	comments := models.GetCommentsByStamp(c.MongoSession, stamp)
 	revel.WARN.Println("query post success")
+	revel.WARN.Println("commentData host:", c.Request.RemoteAddr)
+
 	return c.Render(controllerName, isLogin, post, comments)
 }
 
@@ -49,7 +51,6 @@ func (c *Post) AddComment(commentData string) revel.Result {
 	responseJson := &BayesLearnResult{"success comment", "success comment"}
 	// var comment Comment
 	// err := json.Unmarshal([]byte(commentData), &comment)
-	revel.WARN.Println("commentData host:", c.Request.RemoteAddr)
 	err := models.SaveComment(c.MongoSession, commentData)
 	if err != nil {
 		revel.WARN.Println("occur err when update:", err)
