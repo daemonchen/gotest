@@ -29,8 +29,8 @@ type Post struct {
 // }
 func (c *Post) generateSessionKey(data string) []byte {
 	md5Key := md5.New()
-	io.WriteString(md5Key, []byte(data))
-	return md5Key.Sum("daemonchen")
+	io.WriteString(md5Key, data)
+	return md5Key.Sum([]byte("daemonchen"))
 
 }
 func (c *Post) Index(stamp string) revel.Result {
