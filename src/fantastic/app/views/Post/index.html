@@ -3,6 +3,7 @@
 {{append . "moreStyles" "/css/main.css"}}
 {{append . "moreScripts" "/js/ckeditor.js"}}
 {{append . "moreScripts" "/js/moment.js"}}
+{{append . "moreScripts" "/js/md5.js"}}
 {{append . "moreScripts" "/js/post.js"}}
 {{template "header.html" .}}
 <div class="main container">
@@ -30,26 +31,28 @@
   <h1 class="ui dividing">Comments</h1>
 
   <div class="ui comments">
-    <div class="comment">
-      <a class="avatar">
-        <img src="http://www.gravatar.com/avatar/b296cd51fec6c36a6cd0d590ba3446ac">
-      </a>
-      <div class="content">
-        <a class="author">Daemon Chen</a>
-        <div class="metadata">
-          <div class="date">2 days ago</div>
-        </div>
-        <div class="text">
-          I think this is a great idea and i am voting on it
-        </div>
-        <div class="actions">
-          <a class="reply">Reply</a>
-          <a class="delete">Delete</a>
+    {{range .comments}}
+      <div class="comment">
+        <a class="avatar">
+          <img data="{{.UserEmail}}">
+        </a>
+        <div class="content">
+          <a class="author">{{.UserName}}</a>
+          <div class="metadata">
+            <div class="date">{{.CommentTime}}</div>
+          </div>
+          <div class="text">
+            {{raw .CommentText}}
+          </div>
+          <div class="actions">
+            <a class="reply">Reply</a>
+            <!-- <a class="delete">Delete</a> -->
+          </div>
         </div>
       </div>
-    </div>
-
     <div class="ui divider"></div>
+    {{end}}
+
 
   </div>
 

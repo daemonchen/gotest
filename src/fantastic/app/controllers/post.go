@@ -30,12 +30,9 @@ func (c *Post) Index(stamp string) revel.Result {
 	isLogin := c.Session["islogin"]
 
 	post := models.GetPostByStamp(c.MongoSession, stamp)
-	// time4int64, _ := strconv.ParseInt(post.Stamp, 10, 64)
-	// timeUtc := time.Unix(time4int64, 0)
-	// const layout = "Jan 2, 2006 at 3:04pm (MST)"
-	// post.Stamp = timeUtc.Format(layout)
+	comments := models.GetCommentsByStamp(c.MongoSession, stamp)
 	revel.WARN.Println("query post success")
-	return c.Render(controllerName, isLogin, post)
+	return c.Render(controllerName, isLogin, post, comments)
 }
 
 func (c *Post) Update(stamp string, content string) revel.Result {
@@ -48,7 +45,7 @@ func (c *Post) Update(stamp string, content string) revel.Result {
 	return c.RenderJson(responseJson)
 }
 
-func (c *Post) Comment(commentData string) revel.Result {
+func (c *Post) AddComment(commentData string) revel.Result {
 	responseJson := &BayesLearnResult{"success comment", "success comment"}
 	// var comment Comment
 	// err := json.Unmarshal([]byte(commentData), &comment)

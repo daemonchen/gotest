@@ -9,6 +9,8 @@ GET     /                                       App.Index
 # Ignore favicon requests
 GET     /favicon.ico                            404
 
+POST /post/comment                              Post.AddComment
+
 # Map static resources from the /app/public folder to the /public path
 GET     /public/*filepath                       Static.Serve("public")
 
@@ -16,3 +18,4 @@ GET     /public/*filepath                       Static.Serve("public")
 *       /:controller/:action                    :controller.:action
 
 GET /app/:controller/:action                    :controller.:action
+

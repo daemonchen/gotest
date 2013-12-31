@@ -40,6 +40,7 @@ $(function(){
         dataType: "json",
         success: function (result) {
           console.log("doPostComment result:",result);
+          window.location.reload();
           // window.localStorage.clear();
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -95,9 +96,9 @@ $(function(){
   $(".submit").click(function(){
     var commentData = {
       relativeStamp: stamp,
-      userName: window.localStorage.getItem("edittingUsername"),
-      userEmail: window.localStorage.getItem("edittingEmail"),
-      commentText: window.localStorage.getItem("edittingCommentContent"),
+      userName: $("#username").val(),
+      userEmail: $("#email").val(),
+      commentText: editorComment.getData(),
       commentTime: new Date().valueOf().toString()
     }
     if(commentData.commentText.length == 0){
@@ -105,4 +106,17 @@ $(function(){
     }
     doPostComment("/post/comment",commentData)
   });
+
+  // transform comment result
+  $(".comment .avatar img").each(function(index){
+    var item = $(".comment .avatar img").eq(index);
+    item.attr("src","http://www.gravatar.com/avatar/" + MD5(item.attr("data")))
+  });
+
+  $(".comment .content .metadata .date").each(function(index){
+    var item = $(".comment .content .metadata .date").eq(index);
+    var time = parseInt(item.html());
+    item.html(moment(time).fromNow())
+  });
+
 });
