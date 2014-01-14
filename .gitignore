@@ -1,5 +1,7 @@
 /bin
 /pkg
-/src/github.com/
+src/github.com/
 class.txt
 fantastic.log
+src/github.com/cihub
+src/github.com/.DS_Store
