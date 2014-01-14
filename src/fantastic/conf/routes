@@ -10,6 +10,7 @@ GET     /                                       App.Index
 GET     /favicon.ico                            404
 
 POST /post/comment                              Post.AddComment
+DELETE /post/index                       Post.Delete
 
 # Map static resources from the /app/public folder to the /public path
 GET     /public/*filepath                       Static.Serve("public")

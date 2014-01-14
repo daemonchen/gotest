@@ -52,3 +52,11 @@ func UpdatePost(s *mgo.Session, stamp string, content string) error {
 	}
 	return err
 }
+
+func DeletePost(s *mgo.Session, stamp string) error {
+	err := getPostsCollection(s).Remove(bson.M{"stamp": stamp})
+	if err != nil {
+		panic(err)
+	}
+	return err
+}

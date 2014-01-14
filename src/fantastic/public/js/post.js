@@ -50,6 +50,23 @@ $(function(){
     });
   }
 
+  var doDeleteUpdate = function(url){
+    $.ajax({
+        url: url,
+        type: "DELETE",
+        // data: { stamp: stamp},
+        // dataType: "json",
+        success: function (result) {
+          console.log("todo: change url to detail","result:",result);
+          window.location.reload();
+
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+        console.log(xhr.status,thrownError);
+        }
+    });
+  }
+
   //editable for content
   $("#save").click(function(){
     var contentEditable = CKEDITOR.instances.editor
@@ -60,7 +77,10 @@ $(function(){
     }
     doPostUpdate("/post/update", stamp, articleContent)
   });
-
+  $("#delete").click(function(){
+    console.log(stamp)
+    doDeleteUpdate("/post/index/?stamp="+stamp)
+  });
   //comments
 
   var editorComment = CKEDITOR.replace( 'comment' );

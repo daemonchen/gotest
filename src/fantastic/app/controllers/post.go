@@ -38,13 +38,28 @@ func (c *Post) Index(stamp string) revel.Result {
 	CommentCache[strconv.FormatInt(randNum, 10)] = "true"
 
 	post := models.GetPostByStamp(c.MongoSession, stamp)
-	comments := models.GetCommentsByStamp(c.MongoSession, stamp)
-	return c.Render(controllerName, isLogin, post, comments)
+	if len(post.Content) > 0 {
+		comments := models.GetCommentsByStamp(c.MongoSession, stamp)
+		return c.Render(controllerName, isLogin, post, comments)
+	} else {
+		return c.Redirect(App.Index)
+	}
+}
+
+func (c *Post) Delete(stamp string) revel.Result {
+	// controllerName := "home"
+	if isLogin := c.Session["islogin"]; isLogin == "true" {
+		err := models.DeletePost(c.MongoSession, stamp)
+		if err != nil {
+			panic(err)
+		}
+	}
+	return c.RenderJson(&BayesLearnResult{stamp, "success update"})
 }
 
 func (c *Post) Update(stamp string, content string) revel.Result {
 	revel.WARN.Println("commentData host:", c.Request.RemoteAddr)
-	responseJson := &BayesLearnResult{stamp, "success update"}
+	responseJson := &BayesLearnResult{"delete", "success delete"}
 	err := models.UpdatePost(c.MongoSession, stamp, content)
 	if err != nil {
 		revel.WARN.Println("occur err when update:", err)
