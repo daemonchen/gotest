@@ -6,7 +6,7 @@ import (
 )
 
 func Mail(username string, password string, title string, body string) {
-	m := email.NewMessage(title, body)
+	m := email.NewHTMLMessage(title, body)
 	m.From = "daemon"
 	m.To = []string{"cgyqqcgy@126.com", "cgyqqcgy@gmail.com"}
 	// m.Cc = []string{"cc1@example.com", "cc2@example.com"}

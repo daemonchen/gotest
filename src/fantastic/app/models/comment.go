@@ -2,6 +2,8 @@ package models
 
 import (
 	"encoding/json"
+	. "fantastic/app/lib/email"
+	"fmt"
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
 )
@@ -20,6 +22,12 @@ type comments []*Comment
 func getCommentCollection(s *mgo.Session) *mgo.Collection {
 	return s.DB("fantastic").C("comments")
 }
+
+func sendMailToManager(m *Manager, c *Comment) {
+	emailTitle := fmt.Sprintf("Here is the new comment from %s\n", c.UserName)
+	emailContent := fmt.Sprintf(" The comment is:\n %s You can scan the post in http://115.29.47.52/post/index?stamp=%s ", c.CommentText, c.RelativeStamp)
+	Mail(m.UserName, m.PassWord, emailTitle, emailContent)
+}
 func SaveComment(s *mgo.Session, commentRaw string) error {
 	comment := &Comment{}
 	jsonErr := json.Unmarshal([]byte(commentRaw), comment)
@@ -32,6 +40,8 @@ func SaveComment(s *mgo.Session, commentRaw string) error {
 		panic(err)
 		return err
 	}
+	manager := GetManager(s)
+	go sendMailToManager(manager, comment)
 	return nil
 }
 

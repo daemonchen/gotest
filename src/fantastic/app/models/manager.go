@@ -18,8 +18,8 @@ func getManageeCollection(s *mgo.Session) *mgo.Collection {
 	return s.DB("fantastic").C("adminMailAccount")
 }
 
-func GetManager(s *mgo.Session) Manager {
-	var manager Manager
+func GetManager(s *mgo.Session) *Manager {
+	var manager *Manager
 	getManageeCollection(s).Find(nil).One(&manager)
 	return manager
 }
