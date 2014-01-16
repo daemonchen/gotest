@@ -1,0 +1,3 @@
+[submodule "src/fantastic"]
+	path = src/fantastic
+	url = git@github.com:daemonchen/fantastic.git
